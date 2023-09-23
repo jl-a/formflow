@@ -1,0 +1,16 @@
+{
+    "name": "formflow/formflow",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "autoload": {
+        "psr-4": {
+            "FormFlow\\": "."
+        }
+    },
+    "config": {
+        "vendor-dir": "vendor",
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}
