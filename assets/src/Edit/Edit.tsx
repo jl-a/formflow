@@ -1,10 +1,10 @@
 import React from 'react'
-import { normaliseFormData } from './utils/normalise'
-import './Edit.scss'
-
-interface RootElementProps {
-    el: HTMLElement,
-}
+import { normaliseFormData } from '../utils/normalise'
+import { RootElementProps } from '../utils/types'
+import FieldList from '../Components/FieldList'
+import { useDispatch } from 'react-redux'
+import { initialise  } from '../utils/fields'
+import './style.scss'
 
 const Edit = ( props: RootElementProps ) => {
     const formId = props.el.dataset.form_id ?? 'new'
@@ -18,8 +18,10 @@ const Edit = ( props: RootElementProps ) => {
     }
 
     const formData = normaliseFormData( formId, rawFormData )
+    const dispatch = useDispatch()
+    dispatch( initialise( formData.fields ) )
 
-    return <h1>Hello</h1>
+    return <FieldList parent='root' />
 }
 
 export default Edit

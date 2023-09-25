@@ -1,19 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-
-type FormData = {
-    details: {
-        id: string
-        title: string
-    }
-    settings: {}
-    fields: Array<FieldData>
-}
-
-type FieldData = {
-    id: string
-    title: string
-    type: string
-}
+import { FieldData, FormData } from './types'
 
 const getString = ( value: unknown, default_value?: string ) => {
     if (
@@ -22,11 +8,27 @@ const getString = ( value: unknown, default_value?: string ) => {
         || typeof value === 'boolean'
     ) {
         return `${ value }`
-    } else if ( typeof default_value === 'string' ) {
-        return default_value
-    } else {
-        return ''
     }
+    if ( typeof default_value === 'string' ) {
+        return default_value
+    }
+    return ''
+}
+
+const getNumber = ( value: unknown, default_value?: number ) => {
+    if ( typeof value === 'number' ) {
+        return value
+    }
+    if ( typeof value === 'string' ) {
+        const return_value = parseFloat( value )
+        if ( ! isNaN( return_value ) ) {
+            return return_value
+        }
+    }
+    if ( typeof default_value === 'number' ) {
+        return default_value
+    }
+    return 0
 }
 
 const normaliseFormData = ( formId: string, rawInput: unknown ) => {
@@ -56,8 +58,10 @@ const normaliseFieldData = ( rawInput: unknown ) => {
 
     const model: FieldData = {
         id: getString( input?.id, uuidv4() ),
+        parent: getString( input?.parent, 'root' ),
         title: getString( input?.title ),
         type: getString( input?.type, 'text' ),
+        position: getNumber( input?.position, -1 )
     }
 
     return model
