@@ -1,15 +1,15 @@
 {
     "name": "form-flow",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "",
-    "main": "index.js",
+    "main": "",
     "scripts": {
         "watch": "webpack watch --mode development",
         "build": "webpack --mode production"
     },
     "keywords": [],
     "author": "",
-    "license": "ISC",
+    "license": "GPLv3",
     "dependencies": {
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

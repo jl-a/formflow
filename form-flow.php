@@ -4,15 +4,27 @@ Plugin Name: 	Form Flow
 Plugin URI:		http://wordpress.org/plugins/form-flow/
 Description: 	Create stunning forms
 Version: 		0.0.1
-Author: 		JArmitage
+Author: 		James Armitage
 Author URI: 	https://jarmitage.com.au
-Text Domain: 	form-flow
+Text Domain: 	formflow
 Domain Path:	/languages
-License: 		GPLv2 or later
-License URI:	http://www.gnu.org/licenses/gpl-2.0.html
+License: 		GPLv3
+License URI:	https://www.gnu.org/licenses/gpl-3.0.en.html
 
-    Copyright 2023 and beyond | JArmitage (email : james@jarmitage.com.au)
+    Copyright (C) 2023  James Armitage
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 namespace FormFlow;

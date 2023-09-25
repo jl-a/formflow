@@ -1,7 +1,7 @@
 {
     "name": "formflow/formflow",
     "type": "wordpress-plugin",
-    "license": "GPLv2",
+    "license": "GPLv3",
     "autoload": {
         "psr-4": {
             "FormFlow\\": "."
