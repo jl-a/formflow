@@ -6,13 +6,13 @@ import { Provider } from 'react-redux'
 import './admin.scss'
 
 const init = () => {
-    const edit_el = document.getElementById( 'formflow-edit' )
+    const editEl = document.getElementById( 'formflow-edit' )
 
-    if ( edit_el ) {
-        const root = ReactDOM.createRoot( edit_el )
+    if ( editEl ) {
+        const root = ReactDOM.createRoot( editEl )
         root.render(
             <Provider store={store}>
-                <Edit el={ edit_el } />
+                <Edit el={ editEl } />
             </Provider>
         )
     }

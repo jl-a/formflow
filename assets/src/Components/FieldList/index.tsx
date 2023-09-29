@@ -1,10 +1,13 @@
 import React from 'react'
-import { RootState } from '../../utils/store'
+// Stores and props
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllFields } from '../../utils/fields'
+import { RootState } from '../../utils/store'
+import { getFields } from '../../utils/fields'
 import { FieldElementProps } from '../../utils/types'
 import { addField } from '../../utils/fields'
+// Components
 import Button from '../Button'
+import Field from '../Field'
 
 interface FieldListElementProps extends FieldElementProps {
     parent: string,
@@ -12,7 +15,7 @@ interface FieldListElementProps extends FieldElementProps {
 
 const Element = ( props: FieldListElementProps ) => {
 
-    const fields = useSelector( ( state: RootState ) => getAllFields( state, props.parent ) )
+    const fields = useSelector( ( state: RootState ) => getFields( state, props.parent ) )
     const dispatch = useDispatch()
 
     /**
@@ -28,12 +31,10 @@ const Element = ( props: FieldListElementProps ) => {
     const rows = []
     for ( const field of fields ) {
         rows.push(
-            <div
-                id={ field.id }
+            <Field
+                field={ field }
                 key={ field.id }
-            >
-                <input type={ field.type } />
-            </div>
+            />
         )
     }
 

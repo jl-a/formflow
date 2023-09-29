@@ -1,0 +1,14 @@
+.formflow-field {
+    display: flex;
+    margin: 10px auto;
+
+    > * {
+        margin-right: 10px;
+    }
+    .icon-remove {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        cursor: pointer;
+    }
+}

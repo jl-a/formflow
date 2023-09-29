@@ -67,7 +67,28 @@ const normaliseFieldData = ( rawInput: unknown ) => {
     return model
 }
 
+const normalisePositions = ( allFields: Array<FieldData>, parentId: string ) => {
+    const fields = allFields
+        .filter( field => field.parent === parentId )
+        .sort( ( a, b ) => { // Sorts by the position property
+            if ( a.position > b.position ) {
+                return 1
+            }
+            if ( a.position < b.position ) {
+                return -1
+            }
+            return 0
+        } )
+
+    for ( let i = 0; i < fields.length; i++ ) {
+        fields[ i ].position = i
+    }
+
+    return fields
+}
+
 export {
     normaliseFormData,
     normaliseFieldData,
+    normalisePositions,
 }

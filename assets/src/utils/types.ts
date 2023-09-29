@@ -15,9 +15,7 @@ type FieldData = {
     position: number
 }
 
-interface FieldElementProps {
-    children?: React.ReactNode,
-}
+interface FieldElementProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 interface RootElementProps {
     el: HTMLElement,
