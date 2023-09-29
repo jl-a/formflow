@@ -1,10 +1,10 @@
 import React from 'react'
 // Stores and props
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../utils/store'
-import { getFields } from '../../utils/fields'
+import { RootState } from '../../utils/store/store'
+import { getFields } from '../../utils/store/fields'
 import { FieldElementProps } from '../../utils/types'
-import { addField } from '../../utils/fields'
+import { addField } from '../../utils/store/fields'
 // Components
 import Button from '../Button'
 import Field from '../Field'

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createSelector } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { FieldData } from './types'
+import { FieldData } from '../types'
 import { RootState } from './store'
-import { normaliseFieldData, normalisePositions } from './normalise'
+import { normaliseFieldData, normalisePositions } from '../normalise'
 
 interface FieldsState {
     value: Array<FieldData>

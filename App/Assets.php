@@ -30,6 +30,14 @@ class Assets implements HookEventsInterface {
                 FORMFLOW_VERSION,
                 false
             );
+
+            wp_localize_script(
+                'formflow-admin-script',
+                'formflow',
+                [
+                    'ajax_url' => admin_url( 'admin-ajax.php' ),
+                ],
+            );
         }
     }
 

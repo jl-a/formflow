@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { FieldElementProps as BaseFieldElementProps, FieldData } from '../../utils/types'
-import { updateField, deleteField } from '../../utils/fields'
+import { updateField, deleteField } from '../../utils/store/fields'
 import './style.scss'
 
 interface FieldElementProps extends BaseFieldElementProps {

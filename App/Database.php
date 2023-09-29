@@ -6,8 +6,8 @@ use FormFlow\App\HookEventsInterface;
 
 class Database implements HookEventsInterface {
 
-    private static $formflow_general;
-    private static $formflow_entries;
+    public static $formflow_general;
+    public static $formflow_entries;
 
     public function hook_events() {
         global $wpdb;
@@ -35,7 +35,7 @@ class Database implements HookEventsInterface {
             modified        datetime        DEFAULT '0000-00-00 00:00:00'   NOT NULL,
             form_id         mediumint(9)                                    NOT NULL,
             data_key        varchar(255)                                    NOT NULL,
-            data_value      text                                            NOT NULL,
+            data_value      longtext                                        NOT NULL,
 
             PRIMARY KEY  (id)
         ) $charset_collate;";
@@ -45,7 +45,7 @@ class Database implements HookEventsInterface {
             id              mediumint(9)                                    NOT NULL AUTO_INCREMENT,
             created         datetime        DEFAULT '0000-00-00 00:00:00'   NOT NULL,
             form_id         mediumint(9)                                    NOT NULL,
-            data_value      text                                            NOT NULL,
+            data_value      longtext                                        NOT NULL,
 
             PRIMARY KEY  (id)
         ) $charset_collate;";
@@ -64,7 +64,7 @@ class Database implements HookEventsInterface {
         global $wpdb;
 
         $sql = $wpdb->prepare(
-            "SELECT * FROM %s WHERE data_key='details'",
+            "SELECT * FROM %i WHERE data_key='details'",
             self::$formflow_general
         );
 
@@ -82,12 +82,72 @@ class Database implements HookEventsInterface {
         global $wpdb;
 
         $sql = $wpdb->prepare(
-            "SELECT * FROM %s WHERE form_id=%d",
+            "SELECT * FROM %i WHERE form_id=%d",
             self::$formflow_general,
             $id
         );
 
         return $wpdb->get_results( $sql );
+    }
+
+    public static function form_id_exists( $id ) {
+        if ( ! is_int( $id ) || $id < 0 ) {
+            return false;
+        }
+        global $wpdb;
+
+        $sql = $wpdb->prepare(
+            "SELECT COUNT(*) FROM %i WHERE form_id=%d LIMIT 1",
+            self::$formflow_general,
+            $id
+        );
+
+        return (bool) $wpdb->get_var( $sql ); // will be 0 or a max of 1, so cast to false or true
+    }
+
+    public static function query_largest_form_id() {
+        global $wpdb;
+
+        $sql = $wpdb->prepare(
+            "SELECT MAX(form_id) FROM %i",
+            self::$formflow_general,
+        );
+
+        return $wpdb->get_var( $sql ) ?: 0;
+    }
+
+    public static function write_form_item( $form_id, $data_key, $data_value ) {
+        global $wpdb;
+
+        $sql = $wpdb->prepare(
+            "SELECT id FROM %i WHERE form_id=%d AND data_key=%s LIMIT 1",
+            self::$formflow_general,
+            $form_id,
+            $data_key,
+        );
+        $row_id = $wpdb->get_results( $sql );
+
+        if ( sizeof( $row_id ) ) {
+            $id = $row_id[ 0 ]->id;
+            $sql = $wpdb->prepare(
+                "UPDATE %i SET form_id=%d, modified=CURRENT_TIMESTAMP, data_key=%s, data_value=%s WHERE id=%d",
+                self::$formflow_general,
+                $form_id,
+                $data_key,
+                serialize( $data_value ),
+                $id,
+            );
+        } else {
+            $sql = $wpdb->prepare(
+                "INSERT INTO %i (form_id, created, modified, data_key, data_value) VALUES (%d, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, %s, %s)",
+                self::$formflow_general,
+                $form_id,
+                $data_key,
+                serialize( $data_value ),
+            );
+        }
+
+        $wpdb->query( $sql );
     }
 
 }
