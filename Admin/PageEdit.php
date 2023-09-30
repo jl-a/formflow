@@ -4,10 +4,26 @@ namespace FormFlow\Admin;
 
 use FormFlow\App\HookEventsInterface;
 use FormFlow\App\Forms;
+use FormFlow\Data\Form;
 
 class PageEdit implements HookEventsInterface {
 
-    public function hook_events() {}
+    public function hook_events() {
+        add_action( 'wp_ajax_formflow_save_form', [ $this, 'save' ] );
+    }
+
+    public function save() {
+        $form = new Form( [
+            'details' => $this->decode( $_POST[ 'details' ] ?? '' ),
+            'fields' => $this->decode( $_POST[ 'fields' ] ?? '' ),
+        ] );
+
+        $result = Forms::save( $form );
+
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo( json_encode( $result ) );
+        wp_die();
+    }
 
     public static function render() {
 
@@ -32,6 +48,13 @@ class PageEdit implements HookEventsInterface {
             $form = $form instanceof \FormFlow\Data\Form ? $form->array() : null;
         }
 
+        // Set the display title of the form
+        if ( $form_id === 'new' ) {
+            $form_title = __( 'New Form', 'formflow' );
+        } else {
+            $form_title = ! empty( $form[ 'title' ] ) ? $form[ 'title' ] : 'Untitled Form';
+        }
+
         // If the form is invalid then redirect to the list of forms
         if (
             ! is_array( $form )
@@ -41,7 +64,7 @@ class PageEdit implements HookEventsInterface {
             return;
         }
 
-        do_action( 'formflow_admin_pre_pageedit', $form_id, $form );
+        do_action( 'formflow_admin_pre_pageedit', $form_id );
         ?>
 
         <div class="wrap">
@@ -49,7 +72,7 @@ class PageEdit implements HookEventsInterface {
                 id="formflow-title"
                 class="wp-heading-inline"
             >
-                <?= __( ( $form_id === 'new' ? 'New' : 'Edit' ) . ' Form', 'formflow' ) ?> - <?= __( 'Form Flow', 'formflow' ) ?>
+                <?= $form_title ?> - <?= __( 'Form Flow', 'formflow' ) ?>
             </h1>
 
             <div id="formflow-wrap">
@@ -62,7 +85,15 @@ class PageEdit implements HookEventsInterface {
         </div>
 
         <?php
-        do_action( 'formflow_admin_post_pageedit', $form_id, $form );
+        do_action( 'formflow_admin_post_pageedit', $form_id );
+    }
+
+    private static function decode( $data ) {
+        return json_decode(
+            html_entity_decode(
+                stripslashes( $data )
+            )
+        );
     }
 
 }

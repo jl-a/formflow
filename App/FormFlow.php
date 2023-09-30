@@ -25,6 +25,7 @@ class FormFlow implements HookEventsInterface {
      * */
     private $admin_includes = [
         'Admin\Menu',
+        'Admin\PageEdit',
     ];
 
     /**

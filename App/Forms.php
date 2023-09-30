@@ -12,8 +12,6 @@ class Forms implements HookEventsInterface {
     public function hook_events() {
         add_filter( 'formflow_get_all', [ $this, 'get_all' ] ); // Convenience filter to get a list of all forms
         add_filter( 'formflow_get_single', [ $this, 'get_single' ] ); // Convenience filter to get a single form by ID
-
-        add_action( 'wp_ajax_formflow_save_form', [ $this, 'save' ] );
     }
 
     public static function get_all() {
@@ -50,17 +48,19 @@ class Forms implements HookEventsInterface {
         ] );
     }
 
-    public function save() {
-        $form = new Form( [
-            'details' => $this->decode( $_POST[ 'details' ] ?? '' ),
-            'fields' => $this->decode( $_POST[ 'fields' ] ?? '' ),
-        ] );
+    public static function save( $form ) {
+        if ( ! $form instanceof Form ) {
+            return [ 'success' => false ];
+        }
+
+        $is_new = false;
 
         if (
             ! is_numeric( $form->details->id )
             || ! Database::form_id_exists( $form->details->id )
         ) {
             $form->details->id = 1 + Database::query_largest_form_id();
+            $is_new = true;
         }
         $form_id = $form->details->id;
 
@@ -72,15 +72,10 @@ class Forms implements HookEventsInterface {
 
         do_action( 'formfield_after_save' );
 
-        wp_die();
-    }
-
-    private static function decode( $data ) {
-        return json_decode(
-            html_entity_decode(
-                stripslashes( $data )
-            )
-        );
+        return [
+            'success' => true,
+            'redirect' => $is_new ? get_admin_url() . 'admin.php?page=formflow-edit&form_id=' . $form_id : false,
+        ];
     }
 
 }

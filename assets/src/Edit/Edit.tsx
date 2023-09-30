@@ -1,6 +1,6 @@
 import React from 'react'
 import { normaliseFormData } from '../utils/normalise'
-import { RootState, store } from '../utils/store/store'
+import { RootState } from '../utils/store/store'
 import { RootElementProps } from '../utils/types'
 import FieldList from '../Components/FieldList'
 import Button from '../Components/Button'
@@ -49,7 +49,11 @@ const Edit = ( props: RootElementProps ) => {
         const rawResponse = await fetch( window?.formflow?.ajax_url, {
             method: 'POST',
             body: formData,
-        });
+        } );
+        const response = await rawResponse.json()
+        if ( response.success && response.redirect && typeof response.redirect === 'string' ) {
+            window.location = response.redirect
+        }
     }
 
     return <>
