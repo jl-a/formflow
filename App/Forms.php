@@ -27,7 +27,19 @@ class Forms implements HookEventsInterface {
     }
 
     public static function get_single( $id ) {
-        return null;
+        $rows = Database::query_single_form( $id );
+        foreach ( $rows as $row ) {
+            if ( $row->data_key === 'details' ) {
+                $details = unserialize( $row->data_value );
+            }
+            if ( $row->data_key === 'fields' ) {
+                $fields = unserialize( $row->data_value );
+            }
+        }
+        return new Form( [
+            'details' => $details,
+            'fields' => $fields,
+        ] );
     }
 
     public function save() {
@@ -41,8 +53,13 @@ class Forms implements HookEventsInterface {
         }
         $form_id = $form->details->id;
 
+        apply_filters( 'formfield_before_save', $form );
+        do_action( 'formfield_before_save' );
+
         Database::write_form_item( $form_id, 'details', $form->details );
         Database::write_form_item( $form_id, 'fields', $form->fields );
+
+        do_action( 'formfield_after_save' );
 
         wp_die();
     }

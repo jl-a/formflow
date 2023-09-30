@@ -8,6 +8,27 @@ final class Form {
 
     public $fields = [];
 
+    /**
+     * Casts serialisable properties to an associative array and returns as a JSON string.
+     */
+    public function json() {
+        return json_encode( $this->array() );
+    }
+
+    /**
+     * Casts serialisable properties to an associative array. This does deep casting on objects
+     * within child arrays.
+     */
+    public function array() {
+        return [
+            'details' => (array) $this->details,
+            'fields' => array_map(
+                function( $field ) { return (array) $field; },
+                $this->fields,
+            )
+        ];
+    }
+
     public function __construct( $raw_data ) {
         $data = (array) $raw_data;
 

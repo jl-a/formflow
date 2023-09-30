@@ -15,6 +15,11 @@ type FieldData = {
     position: number
 }
 
+type DetailsData = {
+    id: string
+    title: string
+}
+
 interface FieldElementProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 interface RootElementProps {
@@ -24,6 +29,7 @@ interface RootElementProps {
 export {
     FormData,
     FieldData,
+    DetailsData,
     FieldElementProps,
     RootElementProps,
 }

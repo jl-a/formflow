@@ -1,16 +1,18 @@
 import React from 'react'
 import { normaliseFormData } from '../utils/normalise'
-import { RootState } from '../utils/store/store'
+import { RootState, store } from '../utils/store/store'
 import { RootElementProps } from '../utils/types'
 import FieldList from '../Components/FieldList'
 import Button from '../Components/Button'
 import { useDispatch, useSelector } from 'react-redux'
-import { initialise  } from '../utils/store/fields'
+import { initialiseDetails } from '../utils/store/details'
+import { initialiseFields } from '../utils/store/fields'
 import './style.scss'
 
 let initialised = false
 
 const Edit = ( props: RootElementProps ) => {
+    const details = useSelector( ( state: RootState ) => state.details.value )
     const fields = useSelector( ( state: RootState ) => state.fields.value )
 
     if ( ! initialised ) {
@@ -30,23 +32,18 @@ const Edit = ( props: RootElementProps ) => {
         const formData = normaliseFormData( formId, rawFormData )
 
         initialised = true // set flag, otherwise it will keep re-rendering every time it dispatches the data
-        dispatch( initialise( formData.fields ) )
+        dispatch( initialiseDetails( formData.details ) )
+        dispatch( initialiseFields( formData.fields ) )
     }
 
     /**
      *
      */
     const save = async () => {
-        console.log( fields );
-
         const formData = new FormData()
         formData.append( 'action', 'formflow_save_form' )
+        formData.append( 'details', JSON.stringify( details ) )
         formData.append( 'fields', JSON.stringify( fields ) )
-
-        const data = {
-            action: 'formflow_save_form',
-            fields,
-        }
 
         // @ts-ignore
         const rawResponse = await fetch( window?.formflow?.ajax_url, {

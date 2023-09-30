@@ -91,7 +91,7 @@ class Database implements HookEventsInterface {
     }
 
     public static function form_id_exists( $id ) {
-        if ( ! is_int( $id ) || $id < 0 ) {
+        if ( ! is_numeric( $id ) || $id < 0 ) {
             return false;
         }
         global $wpdb;
@@ -126,9 +126,9 @@ class Database implements HookEventsInterface {
             $data_key,
         );
         $row_id = $wpdb->get_results( $sql );
+        $id = isset( $row_id[ 0 ] ) && ! empty( $row_id[ 0 ]->id ) ? $row_id[ 0 ]->id : null;
 
-        if ( sizeof( $row_id ) ) {
-            $id = $row_id[ 0 ]->id;
+        if ( is_numeric( $id ) ) {
             $sql = $wpdb->prepare(
                 "UPDATE %i SET form_id=%d, modified=CURRENT_TIMESTAMP, data_key=%s, data_value=%s WHERE id=%d",
                 self::$formflow_general,

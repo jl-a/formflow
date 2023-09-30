@@ -44,7 +44,7 @@ const normaliseFormData = ( formId: string, rawInput: unknown ) => {
             title: getString( input?.details?.title )
         },
         settings: {},
-        fields: [],
+        fields: input?.fields?.map( ( field: unknown ) => normaliseFieldData( field ) ) || [],
     }
 
     return model
@@ -87,8 +87,11 @@ const normalisePositions = ( allFields: Array<FieldData>, parentId: string ) => 
     return fields
 }
 
+const initialForm = normaliseFormData( null, null )
+
 export {
     normaliseFormData,
     normaliseFieldData,
     normalisePositions,
+    initialForm,
 }

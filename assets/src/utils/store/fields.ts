@@ -3,14 +3,14 @@ import { createSelector } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { FieldData } from '../types'
 import { RootState } from './store'
-import { normaliseFieldData, normalisePositions } from '../normalise'
+import { normaliseFieldData, normalisePositions, initialForm } from '../normalise'
 
 interface FieldsState {
     value: Array<FieldData>
 }
 
 const initialState: FieldsState = {
-    value: [],
+    value: initialForm.fields,
 }
 
 /**
@@ -18,10 +18,10 @@ const initialState: FieldsState = {
  * to be made on the store.
  * @example
  * import { useDispatch } from 'react-redux'
- * import { initialise } from '../fields.ts'
+ * import { initialiseFields } from '../fields.ts'
  * ...
  * const dispatch = useDispatch()
- * dispatch( initialise( formData.fields ) )
+ * dispatch( initialiseFields( formData.fields ) )
  */
 export const fieldsSlice = createSlice( {
     name: 'fields',
@@ -32,7 +32,7 @@ export const fieldsSlice = createSlice( {
          * @param state
          * @param data      The array of Field Data to overwrite the state with
          */
-        initialise: ( state, data: PayloadAction<Array<FieldData>> ) => {
+        initialiseFields: ( state, data: PayloadAction<Array<FieldData>> ) => {
             state.value = data.payload
         },
         /**
@@ -128,7 +128,7 @@ export const getField = createSelector(
 )
 
 export const {
-    initialise,
+    initialiseFields,
     addField,
     updateField,
     deleteField,

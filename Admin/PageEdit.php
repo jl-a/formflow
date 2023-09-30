@@ -29,10 +29,14 @@ class PageEdit implements HookEventsInterface {
             $form = [];
         } else {
             $form = Forms::get_single( $form_id );
+            $form = $form instanceof \FormFlow\Data\Form ? $form->array() : null;
         }
 
         // If the form is invalid then redirect to the list of forms
-        if ( ! is_array( $form ) ) {
+        if (
+            ! is_array( $form )
+            || ( get_current_screen()->id === 'forms_page_formflow-edit' && $form_id === 'new' )
+        ) {
             echo '<script>window.location="' . get_admin_url() . 'admin.php?page=formflow-forms";</script>';
             return;
         }
