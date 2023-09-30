@@ -30,6 +30,16 @@ class PageForms implements HookEventsInterface {
             </a>
         </div>
 
+        <ul>
+            <?php foreach ( $forms as $form ) : ?>
+                <li>
+                    <a href="<?= get_admin_url() ?>admin.php?page=formflow-edit&form_id=<?= $form->id ?>">
+                        <?= $form->title ?: 'Untitled Form' ?>
+                    </a>
+                </li>
+            <?php endforeach ?>
+        </ul>
+
         <?php
         do_action( 'formflow_admin_post_pageform', $forms );
     }

@@ -5,6 +5,7 @@ namespace FormFlow\App;
 use FormFlow\App\HookEventsInterface;
 use FormFlow\App\Database;
 use FormFlow\Data\Form;
+use FormFlow\Data\Details;
 
 class Forms implements HookEventsInterface {
 
@@ -16,10 +17,17 @@ class Forms implements HookEventsInterface {
     }
 
     public static function get_all() {
-        $forms = Database::query_all_forms();
+        $rows = Database::query_all_form_details();
+        $forms = [];
 
-        if ( ! $forms || ! is_array( $forms ) ) {
-            $forms = [];
+        if ( ! $rows || ! is_array( $rows ) ) {
+            $rows = [];
+        }
+
+        foreach ( $rows as $raw_form ) {
+            if ( ! empty( $raw_form->data_value ) ) {
+                $forms[] = new Details( unserialize( $raw_form->data_value ) );
+            }
         }
 
         $forms = apply_filters( 'formflow_forms', $forms );
@@ -48,7 +56,10 @@ class Forms implements HookEventsInterface {
             'fields' => $this->decode( $_POST[ 'fields' ] ?? '' ),
         ] );
 
-        if ( ! Database::form_id_exists( $form->details->id ) ) {
+        if (
+            ! is_numeric( $form->details->id )
+            || ! Database::form_id_exists( $form->details->id )
+        ) {
             $form->details->id = 1 + Database::query_largest_form_id();
         }
         $form_id = $form->details->id;

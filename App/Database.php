@@ -60,7 +60,7 @@ class Database implements HookEventsInterface {
      *
      * @return {array}
      */
-    public static function query_all_forms() {
+    public static function query_all_form_details() {
         global $wpdb;
 
         $sql = $wpdb->prepare(
