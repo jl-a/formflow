@@ -27,7 +27,7 @@ License URI:	https://www.gnu.org/licenses/gpl-3.0.en.html
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace FormFlow;
+// Do not namespace this file, as alias functions in this file must be available at the global scope
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
@@ -46,9 +46,25 @@ define( 'FORMFLOW_VERSION', '0.0.1' );
 require FORMFLOW_PLUGIN_PATH . '/vendor/autoload.php';
 
 /**
+ * Outputs the HTML for a form. Registered as a global function for convenience.
+ */
+function formflow_output_form( $id ) {
+
+}
+
+function formflow_get_all_forms() {
+    return FormFlow\App\Forms::get_all();
+}
+
+function formflow_get_single_form( $id ) {
+    return FormFlow\App\Forms::get_single( $id );
+}
+
+
+/**
  * Initialise the plugin
  */
-$formflow_instance = new App\FormFlow();
+$formflow_instance = new FormFlow\App\FormFlow();
 $formflow_instance->hook_events();
 
 register_activation_hook(

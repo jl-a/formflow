@@ -9,35 +9,30 @@ final class Form {
     public $fields = [];
 
     /**
-     * Casts serialisable properties to an associative array and returns as a JSON string.
-     */
-    public function json() {
-        return json_encode( $this->array() );
-    }
-
-    /**
      * Casts serialisable properties to an associative array. This does deep casting on objects
      * within child arrays.
      */
-    public function array() {
-        return [
+    public final function array() {
+        $array = [
             'details' => (array) $this->details,
             'fields' => array_map(
                 function( $field ) { return (array) $field; },
                 $this->fields,
             )
         ];
+        $array = apply_filters( 'formflow_form_setup', $array );
+        return $array;
     }
 
-    public function __construct( $raw_data ) {
+    public final function __construct( $raw_data ) {
         $data = (array) $raw_data;
+        $form_id = Details::get_id( $data[ 'details' ] ?? [] );
 
-        $this->details = new Details( $data[ 'details' ] ?? [] );
+        $this->details = new Details( $data[ 'details' ] ?? [], $form_id );
 
         if ( ! empty( $data[ 'fields' ] ) && is_array( $data[ 'fields' ] ) ) {
             foreach ( $data[ 'fields' ] as $field ) {
-                $this->fields[] = new Field( $field );
-                apply_filters( 'formflow_setup_field', end( $this->fields ) );
+                $this->fields[] = new Field( $field, $form_id );
             }
         }
 
@@ -65,10 +60,8 @@ final class Form {
             }
         }
 
-        apply_filters( 'formflow_setup_form', $this );
-        if ( $this->details->id === 'new' ) {
-            apply_filters( 'formflow_setup_new_form', $this );
-        }
+        apply_filters( 'formflow_form_setup', $this );
+        apply_filters( 'formflow_form_' . $form_id . '_setup', $this );
     }
 
 }

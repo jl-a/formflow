@@ -52,7 +52,7 @@ class PageEdit implements HookEventsInterface {
         if ( $form_id === 'new' ) {
             $form_title = __( 'New Form', 'formflow' );
         } else {
-            $form_title = ! empty( $form[ 'title' ] ) ? $form[ 'title' ] : 'Untitled Form';
+            $form_title = ! empty( $form[ 'details' ][ 'title' ] ) ? $form[ 'details' ][ 'title' ] : 'Untitled Form';
         }
 
         // If the form is invalid then redirect to the list of forms

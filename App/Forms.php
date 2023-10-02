@@ -34,6 +34,9 @@ class Forms implements HookEventsInterface {
 
     public static function get_single( $id ) {
         $rows = Database::query_single_form( $id );
+        if ( ! sizeof( $rows ) ) {
+            return null;
+        }
         foreach ( $rows as $row ) {
             if ( $row->data_key === 'details' ) {
                 $details = unserialize( $row->data_value );
@@ -41,6 +44,9 @@ class Forms implements HookEventsInterface {
             if ( $row->data_key === 'fields' ) {
                 $fields = unserialize( $row->data_value );
             }
+        }
+        if ( ! $details && ! $fields ) {
+            return null;
         }
         return new Form( [
             'details' => $details,
