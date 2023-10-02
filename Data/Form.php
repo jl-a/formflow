@@ -20,7 +20,7 @@ final class Form {
                 $this->fields,
             )
         ];
-        $array = apply_filters( 'formflow_form_setup', $array );
+        $array = apply_filters( 'formflow_form_array', $array );
         return $array;
     }
 
