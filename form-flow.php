@@ -49,7 +49,7 @@ require FORMFLOW_PLUGIN_PATH . '/vendor/autoload.php';
  * Outputs the HTML for a form. Registered as a global function for convenience.
  */
 function formflow_output_form( $id ) {
-
+    Formflow\Frontend\Render::form( $id );
 }
 
 function formflow_get_all_forms() {

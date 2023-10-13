@@ -20,6 +20,11 @@ class FormFlow implements HookEventsInterface {
         'App\Assets',
     ];
 
+    private $frontend_includes = [
+        'Frontend\Render',
+        'Frontend\Submit',
+    ];
+
     /**
      * List of all class names that the plugin will attempt to instantiate for the admin section only
      * */
@@ -36,6 +41,11 @@ class FormFlow implements HookEventsInterface {
     public function hook_events() {
         // Create and instantiate each class
         foreach ( $this->includes as $include ) {
+            $class_name = "FormFlow\\$include";
+            $this->instances[] = new $class_name;
+        }
+
+        foreach ( $this->frontend_includes as $include ) {
             $class_name = "FormFlow\\$include";
             $this->instances[] = new $class_name;
         }

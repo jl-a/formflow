@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Edit from './Edit/Edit'
+import Edit from './Apps/Edit'
 import { store } from './utils/store/store'
 import { Provider } from 'react-redux'
 import './admin.scss'

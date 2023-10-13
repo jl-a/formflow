@@ -1,0 +1,103 @@
+.formflow-form {
+    position: relative;
+    max-width: 660px;
+    margin: auto;
+    overflow: hidden;
+
+    .formflow-loading {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+        display: none;
+        background-color: #fff;
+        transition: opacity 0.1s;
+        align-items: center;
+        justify-content: center;
+
+        .formflow-loading-wrap {
+            position: relative;
+            width: 100px;
+            height: 100px;
+
+            div {
+                position: absolute;
+                width: 20%;
+                height: 20%;
+                border-radius: 999px;
+                background-color: #333;
+                transform: translate( -50%, -50% );
+            }
+            .c1 {
+                animation: 4s 0s infinite loading linear;
+            }
+            .c2 {
+                animation: 4s -1s infinite loading linear;
+            }
+            .c3 {
+                animation: 4s -2s infinite loading linear;
+            }
+            .c4 {
+                animation: 4s -3s infinite loading linear;
+            }
+        }
+    }
+    .formflow-field {
+        margin: 10px 0;
+
+        label {
+            display: block;
+            width: 100%;
+
+            > * {
+                display: block
+            };
+            > span {
+                font-size: 0.9em;
+                margin-bottom: 5px;
+            }
+        }
+        input,
+        select,
+        textarea {
+            width: 100%;
+            outline: none;
+            border: 1px solid #ccc;
+            box-shadow: none;
+            padding: 10px;
+        }
+    }
+    input[type="submit"] {
+        margin-top: 5px;
+    }
+}
+
+@keyframes formflow-loading {
+    0% {
+        top: 10%;
+        left: 50%;
+        opacity: 1;
+    }
+    25% {
+        top: 50%;
+        left: 90%;
+        opacity: 0;
+    }
+    50% {
+        top: 90%;
+        left: 50%;
+        opacity: 1;
+    }
+    75% {
+        top: 50%;
+        left: 10%;
+        opacity: 0;
+    }
+    100% {
+        top: 10%;
+        left: 50%;
+        opacity: 1;
+    }
+}

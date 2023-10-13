@@ -8,6 +8,7 @@ class Assets implements HookEventsInterface {
 
     public function hook_events() {
         add_action( 'admin_enqueue_scripts', [ $this, 'admin_assets' ] );
+        add_action( 'wp_enqueue_scripts', [ $this, 'frontend_assets' ] );
     }
 
     public function admin_assets( $hook_suffix ) {
@@ -39,6 +40,39 @@ class Assets implements HookEventsInterface {
                 ],
             );
         }
+
+        wp_enqueue_style(
+            'formflow-frontend-style',
+            FORMFLOW_PLUGIN_URI . 'assets/build/frontend.css',
+            [],
+            FORMFLOW_VERSION,
+            false
+        );
+    }
+
+    public function frontend_assets() {
+        wp_enqueue_script(
+            'formflow-frontend-script',
+            FORMFLOW_PLUGIN_URI . 'assets/build/frontend.js',
+            [],
+            FORMFLOW_VERSION
+        );
+
+        wp_enqueue_style(
+            'formflow-frontend-style',
+            FORMFLOW_PLUGIN_URI . 'assets/build/frontend.css',
+            [],
+            FORMFLOW_VERSION,
+            false
+        );
+
+        wp_localize_script(
+            'formflow-frontend-script',
+            'formflow',
+            [
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+            ],
+        );
     }
 
 }

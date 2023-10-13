@@ -4,6 +4,7 @@ namespace FormFlow\Admin;
 
 use FormFlow\App\HookEventsInterface;
 use FormFlow\App\Forms;
+use FormFlow\App\Util;
 use FormFlow\Data\Form;
 
 class PageEdit implements HookEventsInterface {
@@ -14,8 +15,8 @@ class PageEdit implements HookEventsInterface {
 
     public function save() {
         $form = new Form( [
-            'details' => $this->decode( $_POST[ 'details' ] ?? '' ),
-            'fields' => $this->decode( $_POST[ 'fields' ] ?? '' ),
+            'details' => Util::decode_html_form_data( $_POST[ 'details' ] ?? '' ),
+            'fields' => Util::decode_html_form_data( $_POST[ 'fields' ] ?? '' ),
         ] );
 
         $result = Forms::save( $form );
@@ -52,7 +53,9 @@ class PageEdit implements HookEventsInterface {
         if ( $form_id === 'new' ) {
             $form_title = __( 'New Form', 'formflow' );
         } else {
-            $form_title = ! empty( $form[ 'details' ][ 'title' ] ) ? $form[ 'details' ][ 'title' ] : 'Untitled Form';
+            $form_title = empty( $form[ 'details' ][ 'title' ] )
+                ? __( 'Edit Untitled Form', 'formflow' )
+                : __( 'Edit', 'formflow' ) . ' ' . $form[ 'details' ][ 'title' ];
         }
 
         // If the form is invalid then redirect to the list of forms
@@ -87,13 +90,4 @@ class PageEdit implements HookEventsInterface {
         <?php
         do_action( 'formflow_admin_post_pageedit', $form_id );
     }
-
-    private static function decode( $data ) {
-        return json_decode(
-            html_entity_decode(
-                stripslashes( $data )
-            )
-        );
-    }
-
 }
