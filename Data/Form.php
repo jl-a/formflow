@@ -24,6 +24,15 @@ final class Form {
         return $array;
     }
 
+    public final function get_field( $id ) {
+        foreach ( $this->fields as $field ) {
+            if ( $field->id === $id ) {
+                return $field;
+            }
+        }
+        return null;
+    }
+
     public final function __construct( $raw_data ) {
         $data = (array) $raw_data;
         $form_id = Details::get_id( $data[ 'details' ] ?? [] );

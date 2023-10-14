@@ -14,9 +14,24 @@ class Submit implements HookEventsInterface {
     }
 
     public function submit() {
-        $data = Util::decode_html_form_data( $_POST[ 'data' ] ?? '' );
+        $form_id = Util::decode_html_form_data( $_POST[ 'form_id' ] ?? '' );
+        $fields = Util::decode_html_form_data( $_POST[ 'fields' ] ?? '' );
 
-        var_dump( $data );
+        $form = Forms::get_single( $form_id );
+        if ( ! $form || ! $form->fields ) {
+            return;
+        }
+
+        $mail_fields = [];
+        foreach ( $fields as $field ) {
+            $field_details = $form->get_field( $field->id );
+            $mail_fields[] = [
+                'label' => $field_details->title,
+                'value' => htmlspecialchars( $field->value ),
+            ];
+        }
+
+        var_dump( $mail_fields );
     }
 
 }

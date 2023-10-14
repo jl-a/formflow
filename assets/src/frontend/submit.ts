@@ -1,19 +1,19 @@
+import { show_loading, hide_loading } from './loading'
+
 const submit = async ( e: SubmitEvent ) => {
     e.preventDefault()
     const form = e.target as HTMLFormElement
-
-    const loading = form.querySelector<HTMLElement>( '.formflow-loading' )
-    if ( loading ) {
-        loading.style.display = 'flex'
-        window.requestAnimationFrame( () => window.requestAnimationFrame( // repaint occurrs after two animationframes
-            () => loading.style.opacity = '1'
-        ) )
+    const formId = form.dataset.formId
+    if ( ! formId ) {
+        return
     }
+
+    show_loading( form )
 
     const data: Array<{ id: string, value: any }> = []
     const fields = form.querySelectorAll( '.formflow-field' )
     fields.forEach( field => {
-        const input = field.querySelector( '.formflow-input' )
+        const input = field.querySelector<HTMLElement>( '.formflow-input' )
         if (
             input.tagName !== 'INPUT'
             && input.tagName !== 'SELECT'
@@ -21,8 +21,13 @@ const submit = async ( e: SubmitEvent ) => {
         ) {
             return
         }
-        const id = field.id.replace( 'formflow-field-', '' )
-        const value = ( input as any ).value
+
+        const id = input.dataset.fieldId
+        if ( ! id ) {
+            return
+        }
+
+        const value = ( input as HTMLInputElement ).value
 
         data.push( {
             id,
@@ -32,16 +37,22 @@ const submit = async ( e: SubmitEvent ) => {
 
     const formData = new FormData()
     formData.append( 'action', 'formflow_submit_form' )
-    formData.append( 'data', JSON.stringify( data ) )
+    formData.append( 'form_id', formId )
+    formData.append( 'fields', JSON.stringify( data ) )
 
     // @ts-ignore
     const rawResponse = await fetch( window?.formflow?.ajax_url, {
         method: 'POST',
         body: formData,
     } );
-    const response = await rawResponse.json()
+    let response = null
+    try {
+        response = await rawResponse.json()
+    } catch ( e ) {}
 
-    console.log( data );
+    console.log( response );
+
+    hide_loading( form )
 
     return false
 }

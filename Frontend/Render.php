@@ -32,7 +32,11 @@ class Render implements HookEventsInterface {
             function( $a, $b ) { return isset( $a->position ) && isset( $b->position ) ? $a->position - $b->position : 0; }
         );
         ?>
-<form id="formflow-<?= $form_id ?>" class="formflow-form">
+<form
+    id="formflow-<?= $form_id ?>"
+    class="formflow-form"
+    data-form-id="<?= $form_id ?>"
+>
 <div class="formflow-loading">
     <div class="formflow-loading-wrap">
         <div class="c1"></div>
@@ -41,8 +45,14 @@ class Render implements HookEventsInterface {
         <div class="c4"></div>
     </div>
 </div>
-<?= self::field_list( $root_fields ); ?>
-<input type="submit" class="formflow-input formflow-submit button" value="Submit" />
+<div class="formflow-fields">
+<?php self::field_list( $root_fields ); ?>
+<input
+    type="submit"
+    class="formflow-input formflow-submit button"
+    value="Submit"
+/>
+</div>
 </form>
         <?php
     }
@@ -53,8 +63,11 @@ class Render implements HookEventsInterface {
         }
         foreach ( $fields as $field ) {
             ?>
-<div id="formflow-field-<?= $field->id ?>" class="formflow-field formflow-field-<?= $field->type ?>">
-<?= self::field( $field ); ?>
+<div
+    id="formflow-field-<?= $field->id ?>"
+    class="formflow-field formflow-field-<?= $field->type ?>"
+>
+<?php self::field( $field ); ?>
 </div>
             <?php
         }
@@ -65,19 +78,31 @@ class Render implements HookEventsInterface {
 <label class="formflow-label formflow-text">
 <span><?= $field->title ?></span>
         <?php
+
         switch ( $field->type ) {
+
             case 'text':
             case 'email':
                 ?>
-<input type="text" class="formflow-input formflow-input-<?= $field->type ?>" placeholder="<?= $field->title ?>" />
+<input
+    type="text"
+    class="formflow-input formflow-input-<?= $field->type ?>"
+    placeholder="<?= $field->title ?>"
+    data-field-id="<?= $field->id ?>"
+/>
                 <?php
                 break;
 
             case 'paragraph':
                 ?>
-<textarea class="formflow-input formflow-paragraph" placeholder="<?= $field->title ?>"></textarea>
+<textarea
+    class="formflow-input formflow-paragraph"
+    placeholder="<?= $field->title ?>"
+    data-field-id="<?= $field->id ?>"
+></textarea>
                 <?php
                 break;
+
         }
         ?></label><?php
     }
