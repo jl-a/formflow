@@ -39,11 +39,12 @@ class Submit implements HookEventsInterface {
         }
 
         $site_name = get_bloginfo( 'name' );
+        $form_title = $form->details->title ?? 'Untitled form';
         $mail_output = '';
         ob_start();
 ?>
-    <h2 style="font-family:sans-serif">New entry for <?= $form->details->title ?></h2>
-    <p style="font-family:sans-serif">You have a new entry from your form, <strong><?= $form->details->title ?></strong>, on your website, <?= $site_name ?>.</p>
+    <h2 style="font-family:sans-serif">New entry for <?= $form_title ?></h2>
+    <p style="font-family:sans-serif">You have a new entry from your form, <strong><?= $form_title ?></strong>, on your website, <?= $site_name ?>.</p>
     <table style="margin:auto">
         <tbody>
             <?php foreach ( $mail_fields as $mail_field ) : ?>
@@ -62,7 +63,7 @@ class Submit implements HookEventsInterface {
 
         wp_mail(
             $admin_email,
-            $form->details->title . ': New form submission from ' . $site_name,
+            $form_title . ': New form submission from ' . $site_name,
             $mail_output,
             $headers,
         );

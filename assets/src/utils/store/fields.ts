@@ -32,7 +32,7 @@ export const fieldsSlice = createSlice( {
          * @param state
          * @param data      The array of Field Data to overwrite the state with
          */
-        initialiseFields: ( state, data: PayloadAction<Array<FieldData>> ) => {
+        setFields: ( state, data: PayloadAction<Array<FieldData>> ) => {
             state.value = data.payload
         },
         /**
@@ -128,7 +128,7 @@ export const getField = createSelector(
 )
 
 export const {
-    initialiseFields,
+    setFields,
     addField,
     updateField,
     deleteField,

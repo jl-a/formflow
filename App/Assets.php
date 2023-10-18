@@ -9,6 +9,7 @@ class Assets implements HookEventsInterface {
     public function hook_events() {
         add_action( 'admin_enqueue_scripts', [ $this, 'admin_assets' ] );
         add_action( 'wp_enqueue_scripts', [ $this, 'frontend_assets' ] );
+        add_action( 'enqueue_block_editor_assets', [ $this, 'frontend_assets' ] );
     }
 
     public function admin_assets( $hook_suffix ) {
@@ -40,14 +41,6 @@ class Assets implements HookEventsInterface {
                 ],
             );
         }
-
-        wp_enqueue_style(
-            'formflow-frontend-style',
-            FORMFLOW_PLUGIN_URI . 'assets/build/frontend.css',
-            [],
-            FORMFLOW_VERSION,
-            false
-        );
     }
 
     public function frontend_assets() {

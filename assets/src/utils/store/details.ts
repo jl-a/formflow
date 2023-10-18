@@ -29,14 +29,19 @@ export const detailsSlice = createSlice( {
          * @param state
          * @param data      The array of Field Data to overwrite the state with
          */
-        initialiseDetails: ( state, data: PayloadAction<DetailsData> ) => {
+        setDetails: ( state, data: PayloadAction<DetailsData> ) => {
             state.value = data.payload
         },
+        /**
+         * Updates all the components of a field to a new Field Data item
+         * @param state
+         * @param field
+         */
     }
 } )
 
 export const {
-    initialiseDetails,
+    setDetails,
 } = detailsSlice.actions
 
 export default detailsSlice.reducer

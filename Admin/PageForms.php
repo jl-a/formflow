@@ -30,7 +30,7 @@ class PageForms implements HookEventsInterface {
             </a>
         </div>
 
-        <ul>
+        <ul id="formflow-form-list">
             <?php foreach ( $forms as $form ) : ?>
                 <li>
                     <a href="<?= get_admin_url() ?>admin.php?page=formflow-edit&form_id=<?= $form->id ?>">
