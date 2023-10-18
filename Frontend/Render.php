@@ -45,13 +45,18 @@ class Render implements HookEventsInterface {
         <div class="c4"></div>
     </div>
 </div>
+<div class="formflow-message"></div>
+<div class="formflow-wrap">
 <div class="formflow-fields">
 <?php self::field_list( $root_fields ); ?>
+</div>
+<div class="formflow-field-submit">
 <input
     type="submit"
     class="formflow-input formflow-submit button"
     value="Submit"
 />
+</div>
 </div>
 </form>
         <?php

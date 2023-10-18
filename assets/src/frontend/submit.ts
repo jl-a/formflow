@@ -1,14 +1,15 @@
-import { show_loading, hide_loading } from './loading'
+import { show } from './screens'
+import response, { ResponseData } from './response'
 
 const submit = async ( e: SubmitEvent ) => {
     e.preventDefault()
     const form = e.target as HTMLFormElement
-    const formId = form.dataset.formId
+    const formId = parseFloat( form.dataset.formId )
     if ( ! formId ) {
         return
     }
 
-    show_loading( form )
+    show( form, 'loading' )
 
     const data: Array<{ id: string, value: any }> = []
     const fields = form.querySelectorAll( '.formflow-field' )
@@ -37,7 +38,7 @@ const submit = async ( e: SubmitEvent ) => {
 
     const formData = new FormData()
     formData.append( 'action', 'formflow_submit_form' )
-    formData.append( 'form_id', formId )
+    formData.append( 'form_id', `${ formId }` )
     formData.append( 'fields', JSON.stringify( data ) )
 
     // @ts-ignore
@@ -45,14 +46,18 @@ const submit = async ( e: SubmitEvent ) => {
         method: 'POST',
         body: formData,
     } );
-    let response = null
+    let responseData: ResponseData = { formId }
     try {
-        response = await rawResponse.json()
+        responseData = await rawResponse.json()
+        if ( typeof responseData !== 'object' ) {
+            responseData = { formId }
+        }
+        if ( ! responseData.formId ) {
+            responseData.formId = formId
+        }
     } catch ( e ) {}
 
-    console.log( response );
-
-    hide_loading( form )
+    response( responseData )
 
     return false
 }

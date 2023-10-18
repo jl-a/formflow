@@ -1,52 +1,58 @@
-.formflow-form {
-    position: relative;
-    max-width: 660px;
-    margin: auto;
-    overflow: hidden;
+.formflow {
+    &-form {
+        position: relative;
+        max-width: 660px;
+        margin: auto;
+    }
 
-    .formflow-loading {
+    &-message,
+    &-loading {
         position: absolute;
         left: 0;
         right: 0;
         top: 0;
         bottom: 0;
         opacity: 0;
-        display: none;
+        display: flex;
+        visibility: hidden;
         transition: opacity 0.1s;
         align-items: center;
         justify-content: center;
+    }
 
-        .formflow-loading-wrap {
-            position: relative;
-            width: 100px;
-            height: 100px;
+    &-loading-wrap {
+        position: relative;
+        width: 100px;
+        height: 100px;
 
-            div {
-                position: absolute;
-                width: 20%;
-                height: 20%;
-                border-radius: 999px;
-                background-color: #333;
-                transform: translate( -50%, -50% );
-            }
-            .c1 {
-                animation: 4s 0s infinite loading linear;
-            }
-            .c2 {
-                animation: 4s -1s infinite loading linear;
-            }
-            .c3 {
-                animation: 4s -2s infinite loading linear;
-            }
-            .c4 {
-                animation: 4s -3s infinite loading linear;
-            }
+        div {
+            position: absolute;
+            width: 20%;
+            height: 20%;
+            border-radius: 999px;
+            background-color: #333;
+            transform: translate( -50%, -50% );
+        }
+        .c1 {
+            animation: 4s 0s infinite formflow-loading linear;
+        }
+        .c2 {
+            animation: 4s -1s infinite formflow-loading linear;
+        }
+        .c3 {
+            animation: 4s -2s infinite formflow-loading linear;
+        }
+        .c4 {
+            animation: 4s -3s infinite formflow-loading linear;
         }
     }
-    .formflow-fields {
+    &-message {
+        padding: 20px;
+    }
+    &-wrap {
         transition: opacity 0.1s;
     }
-    .formflow-field {
+    &-field {
         margin: 10px 0;
 
         label {
@@ -70,6 +76,7 @@
             box-shadow: none;
             padding: 10px;
             transition: border 0.3s;
+            border-radius: 0;
 
             &:active,
             &:focus {
@@ -80,7 +87,7 @@
             min-height: 120px;
         }
     }
-    input[type="submit"] {
+    &-submit {
         margin-top: 5px;
     }
 }
