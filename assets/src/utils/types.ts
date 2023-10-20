@@ -1,3 +1,7 @@
+type App = {
+    saving: boolean
+}
+
 type FormData = {
     details: {
         id: string
@@ -27,6 +31,7 @@ interface RootElementProps {
 }
 
 export {
+    App,
     FormData,
     FieldData,
     DetailsData,

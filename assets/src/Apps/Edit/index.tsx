@@ -5,13 +5,16 @@ import { RootElementProps } from '../../utils/types'
 import FieldList from '../../Components/FieldList'
 import Button from '../../Components/Button'
 import { useDispatch, useSelector } from 'react-redux'
-import { setDetails } from '../../utils/store/details'
+import { setDetails, updateDetail } from '../../utils/store/details'
 import { setFields } from '../../utils/store/fields'
+import { updateApp } from '../../utils/store/app'
+import save from './save'
 import './style.scss'
 
 let initialised = false
 
 const Edit = ( props: RootElementProps ) => {
+    const app = useSelector( ( state: RootState ) => state.app.value )
     const details = useSelector( ( state: RootState ) => state.details.value )
     const fields = useSelector( ( state: RootState ) => state.fields.value )
     const dispatch = useDispatch()
@@ -38,33 +41,16 @@ const Edit = ( props: RootElementProps ) => {
     }
 
     const updateTitle = ( title: any ) => {
-        dispatch( setDetails( {
-            ...details,
-            title
-        } ) )
+        dispatch( updateDetail( { title } ) )
         if ( pageTitle && details.id !== 'new' ) {
             pageTitle.innerHTML = `Edit ${ title } - Form Flow`
         }
     }
 
-    /**
-     *
-     */
-    const save = async () => {
-        const formData = new FormData()
-        formData.append( 'action', 'formflow_save_form' )
-        formData.append( 'details', JSON.stringify( details ) )
-        formData.append( 'fields', JSON.stringify( fields ) )
-
-        // @ts-ignore
-        const rawResponse = await fetch( window?.formflow?.ajax_url, {
-            method: 'POST',
-            body: formData,
-        } );
-        const response = await rawResponse.json()
-        if ( response.success && response.redirect && typeof response.redirect === 'string' ) {
-            window.location = response.redirect
-        }
+    const onSaveClick = async () => {
+        dispatch( updateApp( { saving: true } ) )
+        await save( details, fields )
+        dispatch( updateApp( { saving: false } ) )
     }
 
     return <>
@@ -78,8 +64,9 @@ const Edit = ( props: RootElementProps ) => {
         </div>
         <FieldList parent='root' />
         <Button
-            className='formflow-save-button'
-            onClick={ save }
+            className="formflow-save-button"
+            rawClass={ app.saving && 'disabled' }
+            onClick={ onSaveClick }
         >
             Save Form
         </Button>

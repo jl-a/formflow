@@ -33,15 +33,19 @@ export const detailsSlice = createSlice( {
             state.value = data.payload
         },
         /**
-         * Updates all the components of a field to a new Field Data item
+         * Updates item to new data
          * @param state
          * @param field
          */
+        updateDetail: ( state, data: PayloadAction<Partial<DetailsData>> ) => {
+            state.value = { ...state.value, ...data.payload }
+        }
     }
 } )
 
 export const {
     setDetails,
+    updateDetail,
 } = detailsSlice.actions
 
 export default detailsSlice.reducer

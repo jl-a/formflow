@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
+import appReducer from './app'
 import detailsReducer from './details'
 import fieldsReducer from './fields'
 
 export const store = configureStore( {
     reducer: {
+        app: appReducer,
         details: detailsReducer,
         fields: fieldsReducer
     },

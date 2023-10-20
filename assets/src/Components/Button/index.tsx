@@ -3,8 +3,9 @@ import classNames from 'classnames'
 import { FieldElementProps } from '../../utils/types'
 import './style.scss'
 
-interface AddNewElementProps extends FieldElementProps {
-    onClick: () => void
+interface ButtonProps extends FieldElementProps {
+    onClick: () => void,
+    rawClass?: string,
 }
 
 /**
@@ -13,11 +14,11 @@ interface AddNewElementProps extends FieldElementProps {
  * import Button from '../AddNew'
  * <AddNew parent={ field_id } />
  */
-const Element = ( props: AddNewElementProps ) => {
+const Element = ( props: ButtonProps ) => {
 
     return <div className={ classNames( [ 'formflow-item', props.className ] ) }>
         <div
-            className="button button-primary"
+            className={ classNames( 'button button-primary', props.rawClass ) }
             onClick={ props.onClick }
         >
             { props.children }
