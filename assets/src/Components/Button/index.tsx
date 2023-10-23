@@ -5,7 +5,7 @@ import './style.scss'
 
 interface ButtonProps extends FieldElementProps {
     onClick: () => void,
-    rawClass?: string,
+    disabled?: boolean,
 }
 
 /**
@@ -18,7 +18,7 @@ const Element = ( props: ButtonProps ) => {
 
     return <div className={ classNames( [ 'formflow-item', props.className ] ) }>
         <div
-            className={ classNames( 'button button-primary', props.rawClass ) }
+            className={ classNames( 'button button-primary', { 'disabled': props.disabled } ) }
             onClick={ props.onClick }
         >
             { props.children }

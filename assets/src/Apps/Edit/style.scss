@@ -4,4 +4,13 @@
     .formflow-save-button {
         margin-top: 40px;
     }
+    .formflow-tabwrap {
+        display: flex;
+        transition: opacity 0.1s;
+
+        &.saving {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+    }
 }

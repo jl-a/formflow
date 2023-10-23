@@ -8,7 +8,8 @@ interface AppState {
 
 const initialState: AppState = {
     value: {
-        saving: false
+        saving: false,
+        tab: 'overview'
     }
 }
 

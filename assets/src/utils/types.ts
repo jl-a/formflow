@@ -1,5 +1,6 @@
 type App = {
     saving: boolean
+    tab: 'overview' | 'entries' | 'fields' | 'actions' | 'settings'
 }
 
 type FormData = {

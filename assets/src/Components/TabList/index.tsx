@@ -1,0 +1,36 @@
+import React from 'react'
+import { RootState } from '../../utils/store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateApp } from '../../utils/store/app'
+import type { App } from '../../utils/types'
+import classNames from 'classnames'
+import './style.scss'
+
+export default () => {
+    const tabs: Array<{ id: App['tab'], title: string }> = [ {
+        id: 'overview',
+        title: 'Overview',
+    }, {
+        id: 'fields',
+        title: 'Fields',
+    } ]
+
+    const app = useSelector( ( state: RootState ) => state.app.value )
+    const dispatch = useDispatch()
+
+    const onClick = ( tabId: App['tab'] ) => {
+        dispatch( updateApp( { tab: tabId } ) )
+    }
+
+    return <ul className="formflow-tablist">
+        { tabs.map( ( tab, index ) => (
+            <li
+                key={ index }
+                className={ classNames( 'tab', `tab-${ tab.id }`, { 'active': app.tab === tab.id } ) }
+                onClick={ () => onClick( tab.id ) }
+            >
+                { tab.title }
+            </li>
+        ) ) }
+    </ul>
+}
