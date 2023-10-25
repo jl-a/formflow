@@ -1,11 +1,9 @@
 #formflow-edit {
     position: relative;
 
-    .formflow-save-button {
-        margin-top: 40px;
-    }
     .formflow-tabwrap {
         display: flex;
+        align-items: flex-start;
         transition: opacity 0.1s;
 
         &.saving {

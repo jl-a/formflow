@@ -1,4 +1,4 @@
-import { DetailsData, FieldData } from '../../utils/types'
+import { DetailsData, FieldData } from './types'
 
 const save = async (
     details: DetailsData,

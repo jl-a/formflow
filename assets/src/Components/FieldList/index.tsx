@@ -43,7 +43,7 @@ const Element = ( props: FieldListElementProps ) => {
      */
     return <div className='formflow-field-list'>
         { rows }
-        <Button onClick={ addNew }>
+        <Button onClick={ addNew } type='secondary'>
             Add New Field
         </Button>
     </div>

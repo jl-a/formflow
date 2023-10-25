@@ -1,0 +1,19 @@
+.formflow-entries {
+    table {
+        border: none;
+        border-collapse: collapse;
+        width: calc( 100% - 80px );
+        margin: 40px;
+
+        thead {
+            td {
+                background-color: #F6F7F7;
+                border: 1px solid #c3c4c7;
+                font-weight: 600;
+            }
+        }
+        td {
+            padding: 10px 20px;
+        }
+    }
+}

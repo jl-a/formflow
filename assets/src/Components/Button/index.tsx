@@ -6,6 +6,7 @@ import './style.scss'
 interface ButtonProps extends FieldElementProps {
     onClick: () => void,
     disabled?: boolean,
+    type?: 'primary' | 'secondary'
 }
 
 /**
@@ -16,9 +17,13 @@ interface ButtonProps extends FieldElementProps {
  */
 const Element = ( props: ButtonProps ) => {
 
-    return <div className={ classNames( [ 'formflow-item', props.className ] ) }>
+    return <div className={ classNames( [ 'formflow-button', props.className ] ) }>
         <div
-            className={ classNames( 'button button-primary', { 'disabled': props.disabled } ) }
+            className={ classNames(
+                'button',
+                props.type === 'secondary' ? 'button-secondary' : 'button-primary',
+                props.disabled && 'disabled',
+            ) }
             onClick={ props.onClick }
         >
             { props.children }

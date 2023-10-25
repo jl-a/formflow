@@ -11,8 +11,17 @@ export default () => {
         id: 'overview',
         title: 'Overview',
     }, {
+        id: 'entries',
+        title: 'Entries',
+    }, {
         id: 'fields',
         title: 'Fields',
+    }, {
+        id: 'actions',
+        title: 'Actions',
+    }, {
+        id: 'settings',
+        title: 'Settings',
     } ]
 
     const app = useSelector( ( state: RootState ) => state.app.value )
