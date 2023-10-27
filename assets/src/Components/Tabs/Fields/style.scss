@@ -1,0 +1,8 @@
+.formflow-fields {
+    display: flex;
+
+    > div {
+        flex-basis: 50%;
+        width: 50%;
+    }
+}

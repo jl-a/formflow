@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../utils/store/store'
+import Button from '../../Button'
 import './style.scss'
 
 export default () => {
@@ -16,11 +17,34 @@ export default () => {
         } )
     }
 
+    const reload = () => {}
+
     return <div className='formflow-entries'>
+        <div className='entries-controls'>
+            <Button
+                onClick={ reload }
+                type='secondary'
+            >
+                Reload entries
+            </Button>
+            <label>
+                Entries per page
+                <select>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                </select>
+            </label>
+        </div>
         <table>
             <thead>
                 <tr>
-                    { columns.map( column => <td>{ column.title }</td> ) }
+                    { columns.map( ( column, index ) => (
+                        <td key={ index }>
+                            { column.title }
+                        </td>
+                    ) ) }
                     <td>Date Submitted</td>
                 </tr>
             </thead>

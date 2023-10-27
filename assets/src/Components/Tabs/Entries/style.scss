@@ -1,9 +1,21 @@
 .formflow-entries {
+    width: calc( 100% - 80px );
+    margin: 40px auto;
+
+    .entries-controls {
+        display: flex;
+        justify-content: space-between;
+
+        select {
+            margin-left: 10px;
+            min-width: 100px;
+        }
+    }
     table {
         border: none;
         border-collapse: collapse;
-        width: calc( 100% - 80px );
-        margin: 40px;
+        width: 100%;
+        margin: 20px 0;
 
         thead {
             td {
