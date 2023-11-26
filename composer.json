@@ -12,5 +12,8 @@
         "allow-plugins": {
             "composer/installers": true
         }
+    },
+    "require": {
+        "google/recaptcha": "^1.3"
     }
 }

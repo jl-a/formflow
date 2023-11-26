@@ -58,7 +58,7 @@ class Menu implements HookEventsInterface {
             __( 'Integrations', 'formflow' ),
             'edit_posts',
             'formflow-integrations',
-            [ 'FormFlow\Admin\PageForms', 'render' ],
+            [ 'FormFlow\Admin\PageIntegrations', 'render' ],
         );
 
         add_submenu_page(
