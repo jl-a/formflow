@@ -18,6 +18,7 @@ class FormFlow implements HookEventsInterface {
         'App\Database',
         'App\Forms',
         'App\Assets',
+        'App\Integrations'
     ];
 
     private $frontend_includes = [

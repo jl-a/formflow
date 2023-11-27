@@ -4,6 +4,7 @@ namespace FormFlow\Admin;
 
 use FormFlow\App\HookEventsInterface;
 use FormFlow\App\Forms;
+use FormFlow\App\Integrations;
 
 class PageIntegrations implements HookEventsInterface {
 
@@ -21,7 +22,7 @@ class PageIntegrations implements HookEventsInterface {
                 'image' => FORMFLOW_PLUGIN_URI . '/assets/images/reCAPTCHA.png',
                 'description' => 'A widely used security measure that employs various tests to distinguish between human users and automated bots on websites, preventing spam submissions.',
                 'website' => 'https://www.google.com/recaptcha/about/',
-                'active' => true,
+                'developer' => 'Form Flow',
             ],
             [
                 'slug' => 'hcaptcha',
@@ -29,7 +30,7 @@ class PageIntegrations implements HookEventsInterface {
                 'image' => FORMFLOW_PLUGIN_URI . '/assets/images/hCaptcha.png',
                 'description' => 'A security service designed to differentiate between human users and bots through various challenges, exceeding privacy standards like GDPR, CCPA, and HIPAA.',
                 'website' => 'https://www.hcaptcha.com/',
-                'active' => false,
+                'developer' => 'Form Flow',
             ],
             [
                 'slug' => 'couldflare-turnstile',
@@ -37,9 +38,19 @@ class PageIntegrations implements HookEventsInterface {
                 'image' => FORMFLOW_PLUGIN_URI . '/assets/images/Cloudflare.png',
                 'description' => 'A security tool that uses an alternative system to traditional CAPTCHAs to secure form submissions from bots and and confirm visitors are real.',
                 'website' => 'https://www.cloudflare.com/products/turnstile/',
-                'active' => false,
+                'developer' => 'Form Flow',
             ]
         ];
+
+        $activated_integrations = Integrations::get_activated_integrations();
+
+        for ( $index = 0; $index < sizeof( $integrations ); $index++ ) {
+            if ( in_array( $integrations[ $index ][ 'slug' ], $activated_integrations ) ) {
+                $integrations[ $index ][ 'active' ] = true;
+            } else {
+                $integrations[ $index ][ 'active' ] = false;
+            }
+        }
 
         ?>
 
@@ -64,6 +75,7 @@ class PageIntegrations implements HookEventsInterface {
                     <?php endif ?>
 
                     <h2><?= $integration[ 'title' ] ?></h2>
+                    <p class="developed-by">Integration developed by <?= $integration[ 'developer' ] ?: 'Unknown' ?></p>
                     <p><?= $integration[ 'description' ] ?></p>
 
                     <?php if ( $integration[ 'website' ] ) : ?>
@@ -73,10 +85,11 @@ class PageIntegrations implements HookEventsInterface {
                     <p class="integration-buttons">
                         <?php if ( $integration[ 'active' ] ) : ?>
                             <a href="#" class="button button-secondary">Settings</a>
-                            <a href="#" class="deactivate">Deactivate</a>
+                            <a href="#" class="deactivate" data-slug="<?= $integration[ 'slug' ] ?>">Deactivate</a>
                         <?php else : ?>
-                            <a href="#" class="button button-secondary">Activate</a>
+                            <a href="#" class="button button-secondary activate" data-slug="<?= $integration[ 'slug' ] ?>">Activate</a>
                         <?php endif ?>
+                        <span class="spinner"></span>
                     </p>
 
                 </li>
