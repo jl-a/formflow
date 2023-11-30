@@ -34,6 +34,12 @@ class FormFlow implements HookEventsInterface {
         'Admin\PageEdit',
     ];
 
+    private $integrations = [
+        'GoogleRecaptcha',
+        'hCaptcha',
+        'CloudflareTurnstile',
+    ];
+
     /**
      * Instantiates all defined classes. Once they have all been created (and their individual
      * `__construct()` functions run, if they exist), each instance's `hook_events` function
@@ -56,6 +62,11 @@ class FormFlow implements HookEventsInterface {
                 $class_name = "FormFlow\\$include";
                 $this->instances[] = new $class_name;
             }
+        }
+
+        foreach ( $this->integrations as $include ) {
+            $class_name = "FormFlow\\Integrations\\$include";
+            $this->instances[] = new $class_name;
         }
 
         // Run each class instance's hook_events function
