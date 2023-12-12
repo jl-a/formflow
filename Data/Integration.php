@@ -14,6 +14,8 @@ final class Integration {
 
     public $website;
 
+    public $settings;
+
     public $on_load;
 
     public $active = false; // this will be automatically set on registration, so don't ever set this on instantiation
@@ -23,6 +25,7 @@ final class Integration {
         $title = '',
         $image = '',
         $website = '',
+        $settings = null,
         $on_load = null
     ) {
         if ( $id && is_string( $id ) ) {
@@ -38,6 +41,9 @@ final class Integration {
         }
         if ( $website && is_string( $website ) ) {
             $this->website = $website;
+        }
+        if ( is_callable( $settings ) ) {
+            $this->settings = $settings;
         }
         if ( is_callable( $on_load ) ) {
             $this->on_load = $on_load;

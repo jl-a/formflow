@@ -19,7 +19,7 @@ class Integrations implements HookEventsInterface {
         add_action( 'wp_ajax_formflow_activate_integration', [ $this, 'ajax_activate_integration' ] );
         add_action( 'wp_ajax_formflow_deactivate_integration', [ $this, 'ajax_deactivate_integration' ] );
 
-        add_action( 'init', [ $this, 'on_load' ], 99 );
+        add_action( 'wp_loaded', [ $this, 'on_load' ], 99 );
     }
 
     /** Function run from Ajax request, to activate an integration */

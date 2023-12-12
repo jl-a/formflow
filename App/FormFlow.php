@@ -15,23 +15,23 @@ class FormFlow implements HookEventsInterface {
      * and for the admin section.
      */
     private $includes = [
-        'App\Database',
-        'App\Forms',
-        'App\Assets',
-        'App\Integrations'
+        'Database',
+        'Forms',
+        'Assets',
+        'Integrations'
     ];
 
     private $frontend_includes = [
-        'Frontend\Render',
-        'Frontend\Submit',
+        'Render',
+        'Submit',
     ];
 
     /**
      * List of all class names that the plugin will attempt to instantiate for the admin section only
      * */
     private $admin_includes = [
-        'Admin\Menu',
-        'Admin\PageEdit',
+        'Menu',
+        'PageEdit',
     ];
 
     private $integrations = [
@@ -48,18 +48,18 @@ class FormFlow implements HookEventsInterface {
     public function hook_events() {
         // Create and instantiate each class
         foreach ( $this->includes as $include ) {
-            $class_name = "FormFlow\\$include";
+            $class_name = "FormFlow\\App\\$include";
             $this->instances[] = new $class_name;
         }
 
         foreach ( $this->frontend_includes as $include ) {
-            $class_name = "FormFlow\\$include";
+            $class_name = "FormFlow\\Frontend\\$include";
             $this->instances[] = new $class_name;
         }
 
         if ( is_admin() ) {
             foreach ( $this->admin_includes as $include ) {
-                $class_name = "FormFlow\\$include";
+                $class_name = "FormFlow\\Admin\\$include";
                 $this->instances[] = new $class_name;
             }
         }
