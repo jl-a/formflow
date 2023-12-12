@@ -2,12 +2,9 @@
 
 namespace FormFlow\Admin;
 
-use FormFlow\App\HookEventsInterface;
 use FormFlow\App\Forms;
 
-class PageForms implements HookEventsInterface {
-
-    public function hook_events() {}
+class PageForms {
 
     public static function render() {
         $forms = Forms::get_all();

@@ -13,11 +13,16 @@ class GoogleRecaptcha implements HookEventsInterface {
         $integration->image = FORMFLOW_PLUGIN_URI . '/assets/images/reCAPTCHA.png';
         $integration->website = 'https://www.google.com/recaptcha/about/';
         $integration->developer = 'Form Flow';
+        $integration->settings = [ $this, 'settings' ];
         $integration->on_load = [ $this, 'on_load' ];
     }
 
     public function on_load() {
 
+    }
+
+    public function settings() {
+        echo 'settings';
     }
 
 }

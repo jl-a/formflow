@@ -14,7 +14,7 @@ class Integrations implements HookEventsInterface {
     private static $activated_integrations = [];
 
     public function hook_events() {
-        self::$activated_integrations = self::get_activated_integrations();
+        self::$activated_integrations = self::find_activated_integrations();
 
         add_action( 'wp_ajax_formflow_activate_integration', [ $this, 'ajax_activate_integration' ] );
         add_action( 'wp_ajax_formflow_deactivate_integration', [ $this, 'ajax_deactivate_integration' ] );
@@ -67,11 +67,16 @@ class Integrations implements HookEventsInterface {
         return $integrations;
     }
 
+    public static function get_activated_integrations() {
+        $activated_integrations = apply_filters( 'formflow_activated_integrations', self::$activated_integrations );
+        return $activated_integrations;
+    }
+
     /**
      * Get all saved integrations from the datavase, ensuring that the returned result is
      * just an array of strings.
      */
-    public static function get_activated_integrations() {
+    public static function find_activated_integrations() {
         $integrations = get_option( 'formflow_activated_integrations' );
         if ( ! is_array( $integrations ) ) {
             $integrations = [];

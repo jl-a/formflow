@@ -67,7 +67,7 @@ class Menu implements HookEventsInterface {
             __( 'Settings', 'formflow' ),
             'edit_posts',
             'formflow-settings',
-            [ 'FormFlow\Admin\PageForms', 'render' ],
+            [ 'FormFlow\Admin\PageSettings', 'render' ],
         );
 
     }

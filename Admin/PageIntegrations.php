@@ -2,13 +2,10 @@
 
 namespace FormFlow\Admin;
 
-use FormFlow\App\HookEventsInterface;
 use FormFlow\App\Forms;
 use FormFlow\App\Integrations;
 
-class PageIntegrations implements HookEventsInterface {
-
-    public function hook_events() {}
+class PageIntegrations {
 
     public static function render() {
         $all_integrations = Integrations::get_all_integrations();
@@ -45,7 +42,9 @@ class PageIntegrations implements HookEventsInterface {
 
                     <p class="integration-buttons">
                         <?php if ( $integration->active ) : ?>
-                            <a href="#" class="button button-secondary">Settings</a>
+                            <?php if ( is_callable( $integration->settings ) ) : ?>
+                                <a href="<?= get_admin_url() ?>admin.php?page=formflow-settings&tab=<?= $integration->id ?>" class="button button-secondary">Settings</a>
+                            <?php endif ?>
                             <a href="#" class="deactivate" data-slug="<?= $integration->id ?>">Deactivate</a>
                         <?php else : ?>
                             <a href="#" class="button button-secondary activate" data-slug="<?= $integration->id ?>">Activate</a>
