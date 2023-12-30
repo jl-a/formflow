@@ -6,6 +6,12 @@ import { store } from './utils/store/store'
 import { Provider } from 'react-redux'
 import './admin.scss'
 
+declare global {
+    interface Window { formflow: {
+        ajax_url: string
+    } }
+}
+
 const init = () => {
     const editEl = document.getElementById( 'formflow-edit' )
     if ( editEl ) {

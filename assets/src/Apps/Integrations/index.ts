@@ -1,10 +1,15 @@
 export default ( integrationEl: HTMLElement ) => {
-    const integrationButtonWraps = integrationEl.querySelectorAll<HTMLElement>( '.integration-buttons' )
-    integrationButtonWraps.forEach( wrap => {
-        const activationButton = wrap.querySelector<HTMLElement>( '.activate' );
-        const deactivationButton = wrap.querySelector<HTMLElement>( '.deactivate' );
-        const spinner = wrap.querySelector<HTMLElement>( '.spinner' );
 
+    const integrationButtonWraps = integrationEl.querySelectorAll<HTMLElement>( '.integration-buttons' )
+
+    integrationButtonWraps.forEach( wrap => {
+        if ( typeof window?.formflow?.ajax_url !== 'string' ) {
+            return
+        }
+
+        const spinner = wrap.querySelector<HTMLElement>( '.spinner' )
+
+        const activationButton = wrap.querySelector<HTMLElement>( '.activate' )
         if ( activationButton ) {
             activationButton.addEventListener( 'click', async () => {
                 activationButton.style.display = 'none'
@@ -16,8 +21,7 @@ export default ( integrationEl: HTMLElement ) => {
                 formData.append( 'action', 'formflow_activate_integration' )
                 formData.append( 'slug', activationButton.dataset.slug )
 
-                // @ts-ignore
-                await fetch( window?.formflow?.ajax_url, {
+                await fetch( window.formflow.ajax_url, {
                     method: 'POST',
                     body: formData,
                 } )
@@ -25,6 +29,7 @@ export default ( integrationEl: HTMLElement ) => {
             } )
         }
 
+        const deactivationButton = wrap.querySelector<HTMLElement>( '.deactivate' )
         if ( deactivationButton ) {
             deactivationButton.addEventListener( 'click', async () => {
                 deactivationButton.style.display = 'none'
@@ -37,7 +42,7 @@ export default ( integrationEl: HTMLElement ) => {
                 formData.append( 'slug', deactivationButton.dataset.slug )
 
                 // @ts-ignore
-                await fetch( window?.formflow?.ajax_url, {
+                await fetch( window.formflow.ajax_url, {
                     method: 'POST',
                     body: formData,
                 } )

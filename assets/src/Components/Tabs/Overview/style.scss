@@ -1,0 +1,42 @@
+.formflow-overview {
+    .shortcode-wrap {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+    }
+    .shortcode {
+        padding: 7px;
+        background-color: #eee;
+        font-family: monospace;
+        cursor: auto;
+    }
+    .copy-message {
+        pointer-events: none;
+        cursor: auto;
+        user-select: none;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.15s;
+        padding: 5px;
+        background-color: #dfc;
+
+        &.is-active {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+    .delete-span {
+        background-color: #eee;
+        vertical-align: middle;
+        padding: 5px;
+    }
+    .notice-warning {
+        margin: 5px 0 15px;
+        border: 1px solid #c3c4c7;
+        border-left-color: #dba617;
+        border-left-width: 4px;
+        background: #fff;
+        box-shadow: 0 1px 1px rgba(0,0,0,.04);
+        padding: 1px 12px;
+    }
+}

@@ -17,10 +17,12 @@ class Submit implements HookEventsInterface {
     }
 
     public function submit() {
-        do_action( 'submit_before_data' );
+        do_action( 'formflow_before_submit_data' );
 
         $form_id = Util::decode_html_form_data( $_POST[ 'form_id' ] ?? '' );
         $fields = Util::decode_html_form_data( $_POST[ 'fields' ] ?? '' );
+
+        $fields = apply_filters( 'formflow_submit_data', $fields, $form_id );
 
         $this->response = new SubmitResponse();
         $this->response->formId = $form_id;
@@ -31,7 +33,7 @@ class Submit implements HookEventsInterface {
             return $this->send_response();
         }
 
-        $form = apply_filters( 'submit_data', $form );
+        do_action( 'formflow_validate_data', $form, $fields );
 
         $mail_fields = [];
         foreach ( $fields as $field ) {
@@ -41,7 +43,7 @@ class Submit implements HookEventsInterface {
                 'value' => nl2br( htmlspecialchars( $field->value ) ) ?: '<i>Nothing entered</i>',
             ];
         }
-        $mail_fields = apply_filters( 'submit_mail_fields', $mail_fields );
+        $mail_fields = apply_filters( 'formflow_submit_mail_fields', $mail_fields );
 
         $site_name = get_bloginfo( 'name' );
         $form_title = $form->details->title ?? 'Untitled form';
@@ -62,7 +64,7 @@ class Submit implements HookEventsInterface {
     </table>
 <?php
         $mail_output = ob_get_clean();
-        $mail_output = apply_filters( 'submit_mail_output', $mail_output );
+        $mail_output = apply_filters( 'formflow_submit_mail_output', $mail_output );
 
         $admin_email = get_option('admin_email');
         $headers = [ 'Content-Type: text/html; charset=UTF-8' ];
