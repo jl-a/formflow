@@ -41,5 +41,6 @@ export default ( props: RootElementProps ) => {
             <TabList />
             <Tabs />
         </div>
+        <div className={ classNames( 'spinner', { 'is-active': app.saving } ) } />
     </>
 }
