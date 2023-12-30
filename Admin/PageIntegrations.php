@@ -42,7 +42,7 @@ class PageIntegrations {
 
                     <p class="integration-buttons">
                         <?php if ( $integration->active ) : ?>
-                            <?php if ( is_array( $integration->settings ) ) : ?>
+                            <?php if ( is_object( $integration->settings ) ) : ?>
                                 <a href="<?= get_admin_url() ?>admin.php?page=formflow-settings&tab=<?= $integration->id ?>" class="button button-secondary">Settings</a>
                             <?php endif ?>
                             <a href="#" class="deactivate" data-slug="<?= $integration->id ?>">Deactivate</a>

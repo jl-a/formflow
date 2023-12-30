@@ -4,6 +4,7 @@ namespace FormFlow\Integrations;
 
 use FormFlow\App\HookEventsInterface;
 use FormFlow\Data\Integration;
+use FormFlow\Data\Setting;
 
 class GoogleRecaptcha implements HookEventsInterface {
 
@@ -11,19 +12,21 @@ class GoogleRecaptcha implements HookEventsInterface {
         $integration = new Integration( 'google-recaptcha' );
         $integration->title = 'Google reCAPTCHA';
         $integration->image = FORMFLOW_PLUGIN_URI . '/assets/images/reCAPTCHA.png';
-        $integration->website = 'https://www.google.com/recaptcha/about/';
         $integration->developer = 'Form Flow';
+        $integration->website = 'https://www.google.com/recaptcha/about/';
         $integration->on_load = [ $this, 'on_load' ];
-        $integration->settings = [
-            'type' => [
+        $integration->load_settings( [
+            new Setting( [
+                'id' => 'type',
                 'type' => 'select',
                 'title' => 'Type',
                 'options' => [
                     'v2' => 'reCAPTCHA v2',
                     'v3' => 'reCAPTCHA v3',
                 ],
-            ],
-            'widget' => [
+            ] ),
+            new Setting( [
+                'id' => 'widget',
                 'type' => 'select',
                 'title' => 'Widget',
                 'options' => [
@@ -35,12 +38,13 @@ class GoogleRecaptcha implements HookEventsInterface {
                     'conditon' => '==',
                     'value' => 'v2'
                 ] ],
-            ],
-            'api_key' => [
+            ] ),
+            new Setting( [
+                'id' => 'api_key',
                 'type' => 'text',
                 'title' => 'API key',
-            ],
-        ];
+            ] ),
+        ] );
     }
 
     public function on_load() {
