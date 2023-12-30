@@ -2,12 +2,8 @@
 
 namespace FormFlow\Data;
 
-<<<<<<< HEAD:Data/Integration.php
-use FormFlow\App\Integrations;
-use FormFlow\Data\Setting;
-=======
 use FormFlow\Core\Integrations;
->>>>>>> f74ca1b (Major refactor):App/Data/Integration.php
+use FormFlow\Data\Setting;
 
 final class Integration {
 
@@ -19,11 +15,7 @@ final class Integration {
 
     public $website;
 
-<<<<<<< HEAD:Data/Integration.php
     public $developer = 'Unknown';
-=======
-    public $developer;
->>>>>>> f74ca1b (Major refactor):App/Data/Integration.php
 
     public $settings;
 
