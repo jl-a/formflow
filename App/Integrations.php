@@ -10,7 +10,7 @@ class Integrations implements HookEventsInterface {
     /** List of all registered integrations. This only gets populated when the register_integartion function is called */
     private static $integrations = [];
 
-    /** List of all active integrations. Gets loaded from the database in hook_events */
+    /** List of all active integration IDs. Gets loaded from the database in hook_events */
     private static $activated_integrations = [];
 
     public function hook_events() {
@@ -67,8 +67,16 @@ class Integrations implements HookEventsInterface {
         return $integrations;
     }
 
+    public static function get_activated_integration_ids() {
+        $activated_integrations = apply_filters( 'formflow_activated_integration_ids', self::$activated_integrations );
+        return $activated_integrations;
+    }
+
     public static function get_activated_integrations() {
-        $activated_integrations = apply_filters( 'formflow_activated_integrations', self::$activated_integrations );
+        $integrations = self::get_all_integrations();
+        $activated_integrations = array_filter( $integrations, function( $integration ) {
+            return $integration->active;
+        } );
         return $activated_integrations;
     }
 

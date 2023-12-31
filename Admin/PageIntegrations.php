@@ -9,7 +9,6 @@ class PageIntegrations {
 
     public static function render() {
         $all_integrations = Integrations::get_all_integrations();
-        $activated_integrations = Integrations::get_activated_integrations();
 
         ?>
 
