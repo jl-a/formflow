@@ -1,10 +1,5 @@
-<<<<<<< HEAD:assets/src/utils/types.ts
-type EditApp = {
-=======
 /** Store for the Edit app */
-type App = {
-    /** Whether the current form state is actively being synced to the backend database. */
->>>>>>> f74ca1b (Major refactor):src-admin/utils/types.ts
+type EditApp = {
     saving: boolean
     /** ID of the current editor tab in active view */
     tab: 'overview' | 'entries' | 'fields' | 'actions' | 'settings'
