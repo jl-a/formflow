@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import appReducer from './app'
+import appReducer from './edit--app'
 import detailsReducer from './details'
 import fieldsReducer from './fields'
 

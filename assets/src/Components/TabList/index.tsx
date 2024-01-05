@@ -1,13 +1,13 @@
 import React from 'react'
 import { RootState } from '../../utils/store/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateApp } from '../../utils/store/app'
-import type { App } from '../../utils/types'
+import { updateApp } from '../../utils/store/edit--app'
+import type { EditApp } from '../../utils/types'
 import classNames from 'classnames'
 import './style.scss'
 
 export default () => {
-    const tabs: Array<{ id: App['tab'], title: string }> = [ {
+    const tabs: Array<{ id: EditApp['tab'], title: string }> = [ {
         id: 'overview',
         title: 'Overview',
     }, {
@@ -27,7 +27,7 @@ export default () => {
     const app = useSelector( ( state: RootState ) => state.app.value )
     const dispatch = useDispatch()
 
-    const onClick = ( tabId: App['tab'] ) => {
+    const onClick = ( tabId: EditApp['tab'] ) => {
         dispatch( updateApp( { tab: tabId } ) )
     }
 

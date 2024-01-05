@@ -1,7 +1,38 @@
-type App = {
+type EditApp = {
     saving: boolean
     tab: 'overview' | 'entries' | 'fields' | 'actions' | 'settings'
 }
+
+/**
+ * The type for global settings. Contains two keys: one for fixed settings and one for
+ * settings that integrations register. See the IntegrationSetting type for details on
+ * what each integration's settings may contain.
+ *
+ * @example
+ * integrations: {
+ *   google_recaptcha: {
+ *     api_key: {...},
+ *     widget: {...}
+ *   }
+ * }
+ */
+type Settings = {
+    settings: {},
+    integrations: {
+        [integration_id: string]: {
+            [setting_id: string]: IntegrationSetting
+        }
+    }
+}
+
+type IntegrationSetting = {
+    id: string
+    title: string
+    value: any
+    type: string
+    options?: { [id: string]: string }
+    conditional?: Array<Array<string> | string>
+};
 
 type FormData = {
     details: {
@@ -32,7 +63,9 @@ interface RootElementProps {
 }
 
 export {
-    App,
+    EditApp,
+    Settings,
+    IntegrationSetting,
     FormData,
     FieldData,
     DetailsData,

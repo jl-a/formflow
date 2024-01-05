@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../utils/store/store'
-import { updateApp } from '../../utils/store/app'
+import { updateApp } from '../../utils/store/edit--app'
 import Fields from './Fields'
 import Button from '../../Components/Button'
 import save from '../../utils/save'

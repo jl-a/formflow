@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { App } from '../types'
+import { EditApp } from '../types'
 
 interface AppState {
-    value: App
+    value: EditApp
 }
 
 const initialState: AppState = {
