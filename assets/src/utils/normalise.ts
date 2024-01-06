@@ -1,86 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { FieldData, FormData, Settings, IntegrationSetting } from './types'
-
-/**
- * Ensures than an input is a string. if the input is a number or bool it converts to a
- * string. Otherwise, returns a default value; or if a default value is not provided, returns
- * an empty string.
- * @param value             An unknown input to be tested
- * @param default_value     Default string
- * @returns                 A string
- */
-const getString = ( value: unknown, default_value?: string ) => {
-    if (
-        typeof value === 'string'
-        || typeof value === 'number'
-        || typeof value === 'boolean'
-    ) {
-        return `${ value }`
-    }
-    if ( typeof default_value === 'string' ) {
-        return default_value
-    }
-    return ''
-}
-
-/**
- * Ensures than an input is a number. if the input is a string it attempts to convert to a
- * number. Otherwise, returns a default value; or if a default value is not provided, returns 0
- * @param value             An unknown input to be tested
- * @param default_value     Default number
- * @returns                 A number
- */
-const getNumber = ( value: unknown, default_value?: number ) => {
-    if ( typeof value === 'number' ) {
-        return value
-    }
-    if ( typeof value === 'string' ) {
-        const return_value = parseFloat( value )
-        if ( ! isNaN( return_value ) ) {
-            return return_value
-        }
-    }
-    if ( typeof default_value === 'number' ) {
-        return default_value
-    }
-    return 0
-}
-
-/**
- * Ensures that an input is an array. Returns a default array if the input is not an array,
- * or if a default value is not provided, returns an empty array.
- * @param value             An unknown input to be tested
- * @param default_value     Default array
- * @returns                 An array
- */
-const getArray = ( value: unknown, default_value?: Array<any> ) => {
-    if ( Array.isArray( value ) ) {
-        return value
-    }
-    if ( Array.isArray( default_value ) ) {
-        return default_value
-    }
-    return []
-}
-
-/**
- * Takes an input, and if it's an object, it filters it so it only consists of keys and
- * values that are strings. Or returns an empty object if nothing matches or if you pass
- * a non-object to it
- * @param value     An unknown input to be filtered
- * @returns         An object where all keys and values are strings
- */
-const getKeyValueObj = ( value: unknown ) => {
-    const result: { [key: string]: string } = {}
-    if ( typeof value === 'object' ) {
-        Object.entries( value ).forEach( ( [ key, item ] ) => {
-            if ( typeof item === 'string' ) {
-                result[ key ] = item
-            }
-        } )
-    }
-    return result
-}
+import { getString, getNumber, getArray, getKeyValueObj } from './getValue'
 
 /**
  * Takes raw input that could be anything, and parses it into the Settings type. See the
@@ -88,7 +8,7 @@ const getKeyValueObj = ( value: unknown ) => {
  * @param rawInput
  * @returns
  */
-const normaliseSettings = ( rawInput: unknown ) => {
+export const normaliseSettings = ( rawInput: unknown ) => {
     // Ensure the input is an object. If it's not an object (eg a null or something)
     // we'll force an empty object so edge cases where we try to access non-existant
     // properties won't error
@@ -101,13 +21,21 @@ const normaliseSettings = ( rawInput: unknown ) => {
 
     if ( typeof input?.integrations === 'object' ) {
         Object.entries( input.integrations ).forEach( ( [ id, integration ] ) => {
+            if ( typeof integration !== 'object' ) {
+                return
+            }
             model.integrations[ id ] = {}; // initialise the integration settings with an empty object that will be populated later
 
             ( Object.entries( integration ) as Array<[string, IntegrationSetting]> )
                 .forEach( ( [ key, setting ] ) => {
-                    if ( typeof setting?.id === 'string' && typeof setting?.title === 'string' ) { // minimum required keys
+                    if (
+                        typeof setting === 'object'
+                        && typeof setting?.id === 'string'
+                        && typeof setting?.title === 'string' // absolute minimum required keys are id and title. We can extrapolate the rest if not present
+                    ) {
                         model.integrations[ id ][ key ] = {
                             ...setting,
+                            id: key, // guarantees the ID is the same as the object's key
                             value: getString( setting?.value ),
                             type: getString( setting?.type, 'text' ),
                             options: getKeyValueObj( setting?.options ),
@@ -121,7 +49,14 @@ const normaliseSettings = ( rawInput: unknown ) => {
     return model
 }
 
-const normaliseFormData = ( formId: string, rawInput: unknown ) => {
+/**
+ * Takes raw input that could be anything, and parses it into the FormData type. See the
+ * type for detailed information.
+ * @param formId        The ID of the form to parse
+ * @param rawInput      The raw data to parse
+ * @returns
+ */
+export const normaliseFormData = ( formId: string, rawInput: unknown ) => {
     // Ensure the input is an object. If it's not an object (eg a null or something)
     // we'll force an empty object so edge cases where we try to access non-existant
     // properties won't error
@@ -140,7 +75,7 @@ const normaliseFormData = ( formId: string, rawInput: unknown ) => {
     return model
 }
 
-const normaliseFieldData = ( rawInput: unknown ) => {
+export const normaliseFieldData = ( rawInput: unknown ) => {
     // Ensure the input is an object. If it's not an object (eg a null or something)
     // we'll force an empty object so edge cases where we try to access non-existant
     // properties won't error
@@ -157,7 +92,7 @@ const normaliseFieldData = ( rawInput: unknown ) => {
     return model
 }
 
-const normalisePositions = ( allFields: Array<FieldData>, parentId: string ) => {
+export const normalisePositions = ( allFields: Array<FieldData>, parentId: string ) => {
     const fields = allFields
         .filter( field => field.parent === parentId )
         .sort( ( a, b ) => { // Sorts by the position property
@@ -177,12 +112,4 @@ const normalisePositions = ( allFields: Array<FieldData>, parentId: string ) => 
     return fields
 }
 
-const initialForm = normaliseFormData( null, null )
-
-export {
-    normaliseSettings,
-    normaliseFormData,
-    normaliseFieldData,
-    normalisePositions,
-    initialForm,
-}
+export const initialForm = normaliseFormData( null, null )
