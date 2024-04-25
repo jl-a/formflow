@@ -5,10 +5,22 @@
         "outDir": "./assets/build/",
         "noImplicitAny": true,
         "module": "es6",
-        "target": "es5",
+        "target": "es6",
         "jsx": "react",
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "Node",
-    }
+        "paths": {
+            "@": ["./src-admin"],
+            "@Apps": ["./src-admin/Apps"],
+            "@Components": ["./src-admin/Components"]
+        }
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "./src-frontend/main.ts",
+        "./src-admin/admin.tsx",
+    ]
 }
