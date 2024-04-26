@@ -46,6 +46,7 @@ const build = async mode => {
     }
 
     for ( const entry of entries ) {
+        console.log( `Building ${ entry.in }` )
         await esbuild.build( {
             stdin: {
                 contents: `import "./${ entry.in }"`,
@@ -62,6 +63,8 @@ const build = async mode => {
             outfile: `./assets/build/${ entry.out }`,
         } )
     }
+
+    console.log( colors.green( 'Built' ) )
 }
 
 // Check if this file is being called directly from Node, or is being imported.
