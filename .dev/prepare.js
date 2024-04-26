@@ -11,13 +11,14 @@ const files = [
     'vendor',
 ]
 
-const dir = '.plugin/form-flow'
+const dir = '.plugin/formflow'
 
-await cmd( 'node .dev/build.js' )
+await cmd( 'npm run build' )
 
-if ( ! existsSync( dir ) ) {
-    await fs.mkdir( dir, { recursive: true } )
+if ( existsSync( dir ) ) {
+    await fs.rm( dir, { recursive: true, force: true } )
 }
+await fs.mkdir( dir, { recursive: true } )
 
 for ( const file of files ) {
     await fs.cp( file, `${ dir }/${ file }`, { recursive: true } )
