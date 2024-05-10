@@ -10,7 +10,9 @@ namespace FormFlow\Core;
  * to run before any other class is loaded.
  */
 interface HookEventsInterface {
-
-    function hook_events();
-
+    /**
+     * Intitialisation function that can be safely called to load functionalty.
+     * @return void
+     */
+    function hook_events(): void;
 }
