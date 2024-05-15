@@ -12,7 +12,7 @@ class Util {
      * @param string $data
      * @return void
      */
-    public static function decode_html_form_data(string $data): void {
+    public static function decode_html_form_data(string $data): array|object|null {
         return json_decode(
             html_entity_decode(
                 stripslashes($data)
