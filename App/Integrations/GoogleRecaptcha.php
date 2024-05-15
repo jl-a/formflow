@@ -3,13 +3,18 @@
 namespace FormFlow\Integrations;
 
 use FormFlow\Core\HookEventsInterface;
+use FormFlow\Data\Form;
 use FormFlow\Data\Integration;
 use FormFlow\Data\Setting;
 
 class GoogleRecaptcha implements HookEventsInterface {
-
-    public function hook_events() {
-        $integration = new Integration( 'google-recaptcha' );
+    /**
+     * Intitialisation function that can be safely called to load functionalty.
+     *
+     * @return void
+     */
+    public function hook_events(): void {
+        $integration = new Integration('google-recaptcha');
         $integration->title = 'Google reCAPTCHA';
         $integration->image = FORMFLOW_PLUGIN_URI . '/assets/images/reCAPTCHA.png';
         $integration->developer = 'Form Flow';
@@ -33,7 +38,7 @@ class GoogleRecaptcha implements HookEventsInterface {
                     'checkbox' => 'Checkbox',
                     'invisible' => 'Invisible',
                 ],
-                'conditional' => [ [
+                'conditional' => [[
                     'field' => 'type',
                     'conditon' => '==',
                     'value' => 'v2'
@@ -47,13 +52,24 @@ class GoogleRecaptcha implements HookEventsInterface {
         ] );
     }
 
-    public function on_load() {
-        add_action( 'formflow_validate_data', [ $this, 'validate' ], 0, 2 ); // execute this action first, and expect 2 arguments
+    /**
+     * Registers the class's validation function on FormFlow validate hook.
+     *
+     * @return void
+     */
+    public function on_load(): void {
+        add_action('formflow_validate_data', [$this, 'validate'], 0, 2);  // execute this action first, and expect 2 arguments
     }
 
-    public function validate( $form, $fields ) {
-        var_dump( $fields );
+    /**
+     * Validate the submission
+     *
+     * @param Form $form The form data for content that is beubg submitted
+     * @param array $fields The field content that is being submitted
+     * @return void
+     */
+    public function validate(Form $form, array $fields): void {
+        var_dump($fields);
         die();
     }
-
 }
