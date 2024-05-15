@@ -4,6 +4,9 @@ namespace FormFlow\Admin;
 
 use FormFlow\Core\Integrations;
 
+/**
+ * Contains a function for rendering the settings page.
+ */
 class PageSettings {
 
     public static function render() {
@@ -39,5 +42,4 @@ class PageSettings {
         <?php
 
     }
-
 }

@@ -143,13 +143,13 @@ class Database implements HookEventsInterface {
      *
      * @param int $form_id       ID of the form
      * @param string $data_key   Key of the data to store
-     * @param string $data_value Data to store
+     * @param array|object $data_value Data to store
      * @return void
      */
     public static function write_form_item(
         int $form_id,
         string $data_key,
-        string $data_value
+        array|object $data_value
     ): void {
         global $wpdb;
 
